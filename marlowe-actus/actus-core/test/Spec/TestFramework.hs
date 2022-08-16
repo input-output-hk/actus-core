@@ -27,7 +27,6 @@ import Data.List as L (find)
 import Data.Map as Map (Map, elems, lookup)
 import Data.Maybe (isJust)
 import Data.Time (LocalTime (..))
-import Debug.Pretty.Simple
 import GHC.Generics (Generic)
 import GHC.Records (getField)
 import Test.Tasty
@@ -182,13 +181,13 @@ assertTestResults (cf : cfs) (r : rs) = assertTestResult cf r >> assertTestResul
 assertTestResults _ _                 = assertFailure "Sizes differ"
 
 assertTestResult :: TestCashFlow -> TestResult -> IO ()
-assertTestResult cf@CashFlow {..} tr@TestResult {eventDate, eventType, payoff} = do
+assertTestResult CashFlow {..} TestResult {eventDate, eventType, payoff} = do
   assertEqual cashEvent eventType
   assertEqual cashPaymentDay eventDate
   assertEqual (realToFrac amount :: Float) (realToFrac payoff :: Float)
   where
     assertEqual a b = assertBool (err a b) $ a == b
-    err a b = pTraceShow (cf, tr) $ printf "Mismatch: actual %s, expected %s" (show a) (show b)
+    err a b = printf "Mismatch: actual %s, expected %s" (show a) (show b)
 
 testCasesFromFile :: [String] -> FilePath -> IO [TestCase]
 testCasesFromFile excluded testfile =
