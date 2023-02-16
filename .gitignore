@@ -1,0 +1,55 @@
+# Cabal
+.ghc.environment*
+tags
+dist-newstyle
+dist
+cabal-dev
+.cabal-sandbox/
+cabal.sandbox.config
+cabal.config
+cabal.project.local
+
+# Haskell output files
+*.o
+*.hi
+*.dyn_o
+*.dyn_hi
+*.chi
+*.chs.h
+*.prof
+.liquid/
+
+# Nix
+result*
+pkgs/.cabal
+pkgs/.cache
+
+# Editor files
+*~
+*#
+*_flymake.*
+.psc-ide-port
+.dir-locals.el
+*.code-workspace
+.*.sw*
+
+# Misc
+.history/
+.vscode/
+.hsenv
+TAGS
+.DS_Store
+.uuid
+.terraform
+*.tfvars
+gh-pages
+.importify/
+.envrc
+.direnv/
+*.db
+*.db-shm
+*.db-wal
+hie.yaml
+.pre-commit-config.yaml
+secrets/*/.gpg-id
+ghcid.txt
