@@ -9,9 +9,8 @@ module Actus.Domain
   , module Actus.Domain.ContractState
   , module Actus.Domain.ContractTerms
   , module Actus.Domain.Schedule
-  , ActusFrac(..)
-  , ActusOps(..)
   , CashFlow(..)
+  , MinMax(..)
   , RiskFactors(..)
   , setDefaultContractTermValues
   , sign
@@ -27,19 +26,16 @@ import Data.Aeson.Types (FromJSON, ToJSON)
 import Data.Time (LocalTime)
 import GHC.Generics (Generic)
 
-class (Fractional a, ActusOps a) => ActusFrac a where
-  _ceiling :: a -> Integer
-
-class ActusOps a where
+{-| The `MinMax` type class is introduced to provide
+    the functions `min` and `max` without `Ord` constraint.
+-}
+class MinMax a where
   _min :: a -> a -> a
   _max :: a -> a -> a
 
-instance ActusOps Double where
+instance MinMax Double where
   _min = min
   _max = max
-
-instance ActusFrac Double where
-  _ceiling = ceiling
 
 {-| Risk factor observer
 -}
@@ -126,7 +122,7 @@ setDefaultContractTermValues ct@ContractTerms {..} =
       interestCalculationBaseA       = applyDefault 0.0 interestCalculationBaseA,
 
       -- see ContractModel.java
-      cycleAnchorDateOfInterestPayment = cycleAnchorDateOfInterestPayment <|> ((guard $ contractType == CLM) >> initialExchangeDate)
+      cycleAnchorDateOfInterestPayment = cycleAnchorDateOfInterestPayment <|> (guard (contractType == CLM) >> initialExchangeDate)
     }
   where
     infinity :: Double
