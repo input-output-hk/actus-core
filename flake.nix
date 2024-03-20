@@ -16,14 +16,14 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, haskell-nix, actus-tests }:
-    flake-utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" ] (system:
+    flake-utils.lib.eachSystem [ "x86_64-linux" "x86_64-darwin" "aarch64-linux" ] (system:
     let
       overlays = [ haskell-nix.overlay
         (final: prev: {
           actusCore =
             final.haskell-nix.project' {
               src = ./.;
-              compiler-nix-name = "ghc8107";
+              compiler-nix-name = "ghc964";
               shell.tools = {
                 cabal = {};
               };
